@@ -7,6 +7,7 @@ package Baitaplon.View;
 import Baitaplon.Model.Ghe;
 import Baitaplon.Model.Phim;
 import Baitaplon.Model.Phong;
+import Baitaplon.controler.Files;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +21,7 @@ public class InforPhongFra extends javax.swing.JDialog {
     private HomeFrame home;
     DefaultTableModel modelphim;
     DefaultTableModel modelghe;
+    private Files fos ;
     /**
      * Creates new form InforPhongFra
      */
@@ -29,6 +31,7 @@ public class InforPhongFra extends javax.swing.JDialog {
         home = (HomeFrame) parent;
         modelphim=(DefaultTableModel) Tablephim.getModel();
         modelghe = (DefaultTableModel) Tableghe.getModel();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -59,7 +62,7 @@ public class InforPhongFra extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Số thứ tự", "Mã Phim", "Tên Phim", "Giờ Chiếu"
+                "Số thứ tự", "Mã Phim", "Tên Phim", "Thể loại", "Ngày công chiếu"
             }
         ));
         jScrollPane1.setViewportView(Tablephim);
@@ -89,8 +92,12 @@ public class InforPhongFra extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 255));
         jLabel2.setText("THÔNG TIN VỀ PHIM");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 255));
         jLabel3.setText("THÔNG TIN VỀ GHẾ");
 
         jButton2.setText("Sửa trạng thái ghế ");
@@ -105,11 +112,11 @@ public class InforPhongFra extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(124, 124, 124)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(142, 142, 142))
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(95, 95, 95))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,12 +140,12 @@ public class InforPhongFra extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -148,7 +155,7 @@ public class InforPhongFra extends javax.swing.JDialog {
                         .addComponent(TextMa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28))
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -201,6 +208,7 @@ public class InforPhongFra extends javax.swing.JDialog {
                    }
                    showdata(home.Arrphong.get(i).Arrghe, modelghe);
                    JOptionPane.showMessageDialog(rootPane, "Đã thay đổi trạng thái ghế thành công");
+                   home.fos.ghifile(home.Arrphong, "QLPHONG.TXT");
                }
            }
            
@@ -214,7 +222,7 @@ public class InforPhongFra extends javax.swing.JDialog {
             if(values instanceof Phim){
                 Phim item = (Phim) values;
                 model.addRow(new Object[]{
-                    dem++,item.getMaphim(),item.getTenphim(),item.getngaycongchieu()
+                    dem++,item.getMaphim(),item.getTenphim(),item.gettheloai(),item.getngaycongchieu()
                 });
             }
             if(values instanceof Ghe){
